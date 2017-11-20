@@ -3,12 +3,18 @@
   "version": "0.0.1",
   "description": "A wrapper on top of xml to make HTML generation a little easier",
   "main": "html.js",
-  "files": [ "html.js" ],
+  "files": [
+    "html.js"
+  ],
   "dependencies": {
-      "xml": "git+https://github.com/kuiash/xml.git>1.0.2"
+    "xml": "git+https://github.com/kuiash/xml.git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kuiash/html.git"
   },
   "scripts": {
-    "test": "echo pass"
+    "test": "node tests/html_test.js"
   },
   "author": "code@kuiash.com",
   "license": "BSD-3-Clause-Clear"
