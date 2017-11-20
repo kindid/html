@@ -1,4 +1,4 @@
-# html HTML generator built on top of kuiash/xml
+# HTML generator built on top of kuiash/xml
 
 The HTML library is just a layer on top of the [kuiash XML lbrary](https://github.com/kuiash/xml), it is mostly boiler plate expansion where the element name is wrapped into a module export e.g. instead of typing ```xml.el('p', 'this text')``` you can type ```html.p('this text')```.
 
@@ -7,6 +7,67 @@ The calls still return an XNode so it can be freely used with the XML library.
 Some of the functions produce an "unclosed" XNode, others do not, this is specified below.
 
 No special checking is performed on which entry is in which (you can put a font inside a table header - it really doesn't care)
+
+### No tabs/spacing in Output
+
+This is utterly deliberate - several HTML features will appear "buggy" to an end user if you put spacing in your HTML output files - for example li/ol/ul.
+
+### !DOCTYPE
+
+This is one of the more fundamentally annoying parts of the HTML/XML "spec" (there are others).
+
+Use the XML library to wrap this up - The best way to organise you code is NOT to put this in every single place you need to generate HTML but place it in your own local module/function called "wrap_up_page" which you use just before you respond to the HTML request.
+
+### Examples (taken from the unit tests)
+
+#### Simple Web Page
+
+```javascript
+html.html(
+    html.head(
+        html.title('A very simple web page')),
+    html.body(
+        html.h1('Welcome!!!'),
+        html.p('It works!'),
+        html.a({ href:'/index.html' }, 'To the top')
+    )).toString()
+```
+Results in... (Note, spacing is added afterwards. Actual output is compact - see above)
+```html
+<html>
+    <head>
+        <title>A very simple web page</title>
+    </head>
+    <body>
+        <h1>Welcome!!!</h1>
+        <p>It works!</p>
+        <a href="/index.html">To the top</a>
+    </body>
+</html>
+```
+
+#### Make a Table
+
+This function expect an array of objects and an array of column headings. There is nothing "pretty" about its output - human readable column names are left as a user exercise.
+
+```javascript
+function html_table_from_js(data, columns)
+{
+    return(
+        html.table(
+            { border:1 },
+            html.thead(
+                html.tr(
+                    columns.map((column)=>
+                        html.th(column)))),
+            html.tbody(
+                data.map((datum)=>
+                    html.tr(
+                        columns.map((column)=>
+                            html.td(datum[column] || '')))))
+        ))
+}
+```
 
 ### Special Calls
 

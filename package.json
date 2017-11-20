@@ -1,6 +1,6 @@
 {
   "name": "html",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A wrapper on top of xml to make HTML generation a little easier",
   "main": "html.js",
   "files": [
